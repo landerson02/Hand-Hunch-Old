@@ -1,6 +1,9 @@
+:root {
+    font-size: 16px;
+}
+
 body {
     font-family: 'Roboto', serif;
-    background-color: darkgreen;
 }
 
 .container {
@@ -8,15 +11,9 @@ body {
     flex-direction: column;
 }
 
-/** {*/
-/*    border: 1px solid black;*/
-/*}*/
-
 .header {
     display: flex;
     flex-direction: row;
-    background-color: darkgreen;
-    color: red;
     justify-content: space-between;
     border-bottom: 1px solid gray;
 }
@@ -32,4 +29,84 @@ body {
 .header-links {
     display: flex;
     flex-direction: row;
+}
+
+.screen-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#first {
+    justify-content: space-evenly;
+}
+.guess {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 20rem;
+    border: solid blue 2px;
+}
+
+.board {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 40rem;
+    border: 2px solid pink;
+}
+
+.hand-rank {
+    font-size: 48px;
+    width: 15rem;
+}
+
+/* height/width ratio for card = 1.4 */
+.card {
+    height: 8.4rem;
+    width: 6rem;
+    border: 2px solid black;
+    border-radius: 1rem;
+}
+
+.btns-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    gap: 10rem;
+}
+
+.suit-btn-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.suit-btn {
+    width: 6rem;
+    height: 6rem;
+}
+
+.rank-btn-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.rank-btn {
+    width: 4rem;
+    height: 4rem;
+}
+.top {
+    display: flex;
+}
+.bottom {
+    display: flex;
 }

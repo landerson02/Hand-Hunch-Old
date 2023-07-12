@@ -1,3 +1,4 @@
+// Game Logic
 class Card {
     constructor(value, suit) {
         this.value = value;
@@ -245,4 +246,5 @@ function main() {
     console.log("Correct!");
 }
 
-// main();
+// User Interface
+
