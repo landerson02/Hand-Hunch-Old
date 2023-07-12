@@ -47,6 +47,9 @@ body {
 
 #first {
     justify-content: space-evenly;
+    gap: 20rem;
+    font-size: 2rem;
+    font-weight: bold;
 }
 .guess {
     display: flex;

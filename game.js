@@ -1,13 +1,14 @@
 // Game Logic
 class Card {
-    constructor(rank, suit) {
-        this.rank = rank;
+    constructor(value, suit) {
+        this.value = value;
         this.suit = suit;
         this.toElement = () => {
+            if(this==null||this===undefined) console.log("Card is null");
             let c = document.createElement('div');
             c.classList.add('card');
             let url = 'url("Assets/Cards/';
-            if(this.rank===0||this.suit===0) {
+            if(this.value===0||this.suit===0) {
                 url += "back";
             } else {
                 switch (this.suit) {
@@ -24,7 +25,7 @@ class Card {
                         url += "diamonds_";
                         break;
                 }
-                switch(this.rank) {
+                switch(this.value) {
                     case 1:
                         url += "ace";
                         break;
@@ -38,7 +39,7 @@ class Card {
                         url += "king";
                         break;
                     default:
-                        url += this.rank;
+                        url += this.value;
                         break;
                 }
             }
@@ -50,7 +51,7 @@ class Card {
 
     toString() {
         let c = "";
-        switch(this.rank) {
+        switch(this.value) {
             case 1:
                 c += "A of ";
                 break;
@@ -64,7 +65,7 @@ class Card {
                 c += "K of ";
                 break;
             default:
-                c += this.rank + " of ";
+                c += this.value + " of ";
                 break;
         }
 
@@ -248,13 +249,11 @@ function evalGuess(guess) {
     let s = "";
     let c1 = new Card(guess[0][0], guess[0][1]);
     let c2 = new Card(guess[1][0], guess[1][1]);
-
     s += c1 + ": " + colorStatus(c1) + "\n";
     s += c2 + ": " + colorStatus(c2);
-
     if (colorStatus(c1) === "Green" && colorStatus(c2) === "Green") gameOver = true;
 
-    return s;
+    return [colorStatus(c1), colorStatus(c2)];
 }
 
 function colorStatus(c) {
@@ -289,10 +288,38 @@ function main() {
 // User Interface
 
 const screen = document.getElementById('screen');
-let rows = [];
 let curGuess = [];
 
 function createRow() {
+    const row = document.createElement('div');
+    row.classList.add('row');
+
     // Create guess section
+    const guessContainer = document.createElement('div');
+    guessContainer.classList.add('guess');
+    guessContainer.appendChild(new Card(0, 0).toElement());
+    guessContainer.appendChild(new Card(0, 0).toElement());
+    row.appendChild(guessContainer);
+
+    // Create Board
+    const boardElement = document.createElement('div');
+    boardElement.classList.add('board');
+    for(let i = 0; i < 5; i++) {
+        board[i] = deck.pop();
+        boardElement.appendChild(board[i].toElement());
+    }
+    row.appendChild(boardElement);
+
+    const handRank = document.createElement('div');
+    handRank.classList.add('hand-rank');
+    handRank.textContent = handStrength();
+
+    row.appendChild(handRank);
+
+    screen.appendChild(row);
 }
-screen.appendChild(new Card(11, 4).toElement());
+
+// init_game();
+// createRow();
+// console.log(hand[0].toString() + " " + hand[1].toString())
+
