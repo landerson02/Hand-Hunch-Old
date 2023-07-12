@@ -1,13 +1,56 @@
 // Game Logic
 class Card {
-    constructor(value, suit) {
-        this.value = value;
+    constructor(rank, suit) {
+        this.rank = rank;
         this.suit = suit;
+        this.toElement = () => {
+            let c = document.createElement('div');
+            c.classList.add('card');
+            let url = 'url("Assets/Cards/';
+            if(this.rank===0||this.suit===0) {
+                url += "back";
+            } else {
+                switch (this.suit) {
+                    case 1:
+                        url += "spades_";
+                        break;
+                    case 2:
+                        url += "hearts_";
+                        break;
+                    case 3:
+                        url += "clubs_";
+                        break;
+                    case 4:
+                        url += "diamonds_";
+                        break;
+                }
+                switch(this.rank) {
+                    case 1:
+                        url += "ace";
+                        break;
+                    case 11:
+                        url += "jack";
+                        break;
+                    case 12:
+                        url += "queen";
+                        break;
+                    case 13:
+                        url += "king";
+                        break;
+                    default:
+                        url += this.rank;
+                        break;
+                }
+            }
+            url += '.svg")'
+            c.style.backgroundImage = url;
+            return c;
+        }
     }
 
     toString() {
         let c = "";
-        switch(this.value) {
+        switch(this.rank) {
             case 1:
                 c += "A of ";
                 break;
@@ -21,7 +64,7 @@ class Card {
                 c += "K of ";
                 break;
             default:
-                c += this.value + " of ";
+                c += this.rank + " of ";
                 break;
         }
 
@@ -73,10 +116,6 @@ function newGuess() {
     }
 
     console.log("You have a " + handStrength());
-}
-
-function createBoard() {
-
 }
 
 function handStrength() {
@@ -204,6 +243,7 @@ function handStrength() {
             return "High Card";
     }
 }
+
 function evalGuess(guess) {
     let s = "";
     let c1 = new Card(guess[0][0], guess[0][1]);
@@ -248,3 +288,11 @@ function main() {
 
 // User Interface
 
+const screen = document.getElementById('screen');
+let rows = [];
+let curGuess = [];
+
+function createRow() {
+    // Create guess section
+}
+screen.appendChild(new Card(11, 4).toElement());
