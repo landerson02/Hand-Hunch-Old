@@ -325,7 +325,10 @@ for(let i = 0; i < 13; i++) {
 
 // Submit Guess
 submitBtn.addEventListener('click', () => {
-    if((!deck.includes(curGuess[0]) || !deck.includes(curGuess[1])) || (curGuess[0]===curGuess[1])) {
+    console.log(curGuess[0]);
+    console.log(hand[0]);
+    if((!deck.includes(curGuess[0]) && !hand.includes(curGuess[0])) ||
+        (!deck.includes(curGuess[1]) && !hand.includes(curGuess[1])) || (curGuess[0]===curGuess[1])) {
         console.log('not in deck');
         return;
     }
@@ -343,18 +346,25 @@ submitBtn.addEventListener('click', () => {
 function updateGuess(i) {
     console.log(curGuess[0].toElement().style.backgroundImage);
 
-    if(curGuess.length >= 1) guesses[numBoards-1][0].style.backgroundImage =
-        curGuess[0].toElement().style.backgroundImage;
-    if(curGuess.length === 2) guesses[numBoards-1][1].style.backgroundImage =
-        curGuess[1].toElement().style.backgroundImage;
+    if(curGuess.length >= 1) {
+        guesses[numBoards-1][0].style.backgroundImage = curGuess[0].toElement().style.backgroundImage;
+    }
+    if(curGuess.length === 2) {
+        guesses[numBoards-1][1].style.backgroundImage = curGuess[1].toElement().style.backgroundImage;
+    }
 }
 
 // Add guess card to curGuess
 function addGuessCard(i) {
     if(curGuess.length===2) return;
 
-    curGuess.push(deck.filter((c)=>c.suit===curSuit&&c.value===i)[0] ?
-        deck.filter((c)=>c.suit===curSuit&&c.value===i)[0] : new Card(i, curSuit));
+    if(deck.filter((c)=>c.suit===curSuit&&c.value===i).length > 0) {
+        curGuess.push(deck.filter((c)=>c.suit===curSuit&&c.value===i)[0]);
+    } else if(hand.filter((c)=>c.suit===curSuit&&c.value===i).length > 0) {
+        curGuess.push(hand.filter((c)=>c.suit===curSuit&&c.value===i)[0]);
+    } else {
+        curGuess.push(new Card(i, curSuit));
+    }
     updateGuess(i);
 }
 
