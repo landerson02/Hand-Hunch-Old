@@ -268,9 +268,9 @@ function colorStatus(c) {
     let suit = c.suit;
     let cards = [hand[0].value, hand[1].value];
     let suits = [hand[0].suit, hand[1].suit];
-    if ((value === cards[0] && suit === suits[0]) || (value === cards[1] && suit === suits[1])) return "Green";
-    if (value === cards[0] || value === cards[1] || suit === suits[0] || suit === suits[1]) return "Yellow";
-    return "Gray";
+    if ((value === cards[0] && suit === suits[0]) || (value === cards[1] && suit === suits[1])) return "green";
+    if (value === cards[0] || value === cards[1] || suit === suits[0] || suit === suits[1]) return "yellow";
+    return "red";
 }
 
 // User Interface
@@ -287,6 +287,8 @@ let resetBtn = document.getElementById('reset');
 // Reset Guess
 resetBtn.addEventListener('click', () => {
     curGuess = [];
+    guesses[numBoards-1][0].style.backgroundImage = backFile;
+    guesses[numBoards-1][1].style.backgroundImage = backFile;
 });
 
 // Changing selected suit
@@ -313,14 +315,12 @@ for(let i = 0; i < 13; i++) {
 
 // Submit Guess
 submitBtn.addEventListener('click', () => {
-    if((!deck.includes(curGuess[0]) && !hand.includes(curGuess[0])) ||
-        (!deck.includes(curGuess[1]) && !hand.includes(curGuess[1])) || (curGuess[0]===curGuess[1])) {
+    if((!deck.includes(curGuess[0]) || !deck.includes(curGuess[1])) || (curGuess[0]===curGuess[1])) {
         console.log('not in deck');
-
         return;
     }
-
-
+    guesses[numBoards-1][0].classList.add(colorStatus(curGuess[0]));
+    guesses[numBoards-1][1].classList.add(colorStatus(curGuess[1]));
     for(let i = 0; i < 2; i++) {
         deck.splice(deck.indexOf(deck.filter((c)=>c.suit===curGuess[0].suit&&c.value===curGuess[0].value)));
     }
