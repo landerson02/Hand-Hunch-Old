@@ -38,6 +38,13 @@ body {
     align-items: center;
 }
 
+/*FIXME*/
+#screen {
+    overflow: scroll;
+    height: 32rem;
+    scroll-behavior: auto;
+}
+
 .row {
     display: flex;
     flex-direction: row;
@@ -77,7 +84,7 @@ body {
     height: 8.4rem;
     width: 6rem;
     border: 2px solid black;
-    border-radius: 1rem;
+    border-radius: .7rem;
     background-image: url("Assets/Cards/diamonds_ace.svg");
     background-size: cover;
     background-position: center;
@@ -128,4 +135,13 @@ body {
 }
 .bottom {
     display: flex;
+}
+.guess-btn-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.guess-btn {
+    width: 8rem;
+    height: 4rem;
 }

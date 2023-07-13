@@ -8,20 +8,20 @@ class Card {
             let c = document.createElement('div');
             c.classList.add('card');
             let url = 'url("Assets/Cards/';
-            if(this.value===0||this.suit===0) {
+            if(this.suit<0||this.suit>3||this.value<1||this.value>13) {
                 url += "back";
             } else {
                 switch (this.suit) {
-                    case 1:
+                    case 0:
                         url += "spades_";
                         break;
-                    case 2:
+                    case 1:
                         url += "hearts_";
                         break;
-                    case 3:
+                    case 2:
                         url += "clubs_";
                         break;
-                    case 4:
+                    case 3:
                         url += "diamonds_";
                         break;
                 }
@@ -88,14 +88,21 @@ class Card {
     }
 }
 
+let suitMap = {
+    "S" : 0,
+    "H" : 1,
+    "C" : 2,
+    "D" : 3,
+}
 let deck = [];
 let hand = [null, null];
 let board = [null, null, null, null, null];
+let numBoards = 0;
 let gameOver = false;
 
 function init_game() {
     deck = [];
-    for (let i = 1; i <= 4; ++i) {
+    for (let i = 0; i < 4; ++i) {
         for (let j = 1; j <= 13; ++j) {
             deck.push(new Card(j, i));
         }
@@ -266,30 +273,75 @@ function colorStatus(c) {
     return "Gray";
 }
 
-function main() {
-
-    init_game();
-    while(!gameOver) {
-        newGuess();
-        let guess = new Array(2).map(() => new Array(2));
-        // const input = prompt("Enter Guess (Card: 1-13, Suit: 1 - 4 [Spades, Hearts, Clubs, Diamonds])");
-        // const nums = input.split(" ");
-        for(let i = 0; i < 2; i++) {
-            for(let j = 0; j < 2; j++) {
-                // guess[i][j] = nums[i+j];
-            }
-        }
-        console.log(evalGuess(guess));
-    }
-
-    console.log("Correct!");
-}
-
 // User Interface
 
 const screen = document.getElementById('screen');
+let backFile = 'url("Assets/Cards/back.svg")'
+let guesses = [];
 let curGuess = [];
+let suitBtns = [];
+let rankBtns = [];
+let submitBtn = document.getElementById('submit');
+let resetBtn = document.getElementById('reset');
 
+// Reset Guess
+resetBtn.addEventListener('click', () => {
+    curGuess = [];
+});
+
+// Changing selected suit
+let curSuit = 0;
+suitBtns[0] = document.getElementById('S');
+suitBtns[1] = document.getElementById('H');
+suitBtns[2] = document.getElementById('C');
+suitBtns[3] = document.getElementById('D');
+for(let i = 0; i < 4; i++) {
+    suitBtns[i].addEventListener('click', () => {
+        suitBtns[curSuit].style.backgroundColor = '';
+        curSuit = suitMap[suitBtns[i].id];
+        suitBtns[curSuit].style.backgroundColor = 'gray';
+    });
+}
+
+// Add guess card when a number is selected
+for(let i = 0; i < 13; i++) {
+    rankBtns[i] = document.getElementById(i+1 + "");
+    rankBtns[i].addEventListener('click', () => {
+       addGuessCard(i+1);
+    });
+}
+
+// Submit Guess
+submitBtn.addEventListener('click', () => {
+    // if(curGuess[0] ===)
+
+
+    for(let i = 0; i < 2; i++) {
+        deck.splice(deck.indexOf(deck.filter((c)=>c.suit===curGuess[0].suit&&c.value===curGuess[0].value)));
+    }
+
+});
+
+function updateGuess(i) {
+    console.log(curGuess[0].toElement().style.backgroundImage);
+    guesses[0][0].style.backgroundImage = curGuess[0].toElement().style.backgroundImage;
+
+    if(curGuess.length >= 1) guesses[0][0].style.backgroundImage = curGuess[0].toElement().style.backgroundImage;
+    if(curGuess.length === 2) guesses[numBoards-1][1].style.backgroundImage =
+        curGuess[1].toElement().style.backgroundImage;
+}
+
+function addGuessCard(i) {
+    if(curGuess.length===2) return;
+
+    // let c = deck.filter((c)=>c.suit===curSuit&&c.value===i)[0];
+    // deck = deck.splice(deck.indexOf(c), 1);
+    curGuess.push(deck.filter((c)=>c.suit===curSuit&&c.value===i)[0]);
+    // console.log(curGuess);
+    updateGuess(i);
+}
+
+// Create next board
 function createRow() {
     const row = document.createElement('div');
     row.classList.add('row');
@@ -297,8 +349,9 @@ function createRow() {
     // Create guess section
     const guessContainer = document.createElement('div');
     guessContainer.classList.add('guess');
-    guessContainer.appendChild(new Card(0, 0).toElement());
-    guessContainer.appendChild(new Card(0, 0).toElement());
+    guessContainer.appendChild(new Card(-1, -1).toElement());
+    guessContainer.appendChild(new Card(-1, -1).toElement());
+    guesses.push([guessContainer.firstChild, guessContainer.lastChild]);
     row.appendChild(guessContainer);
 
     // Create Board
@@ -317,9 +370,9 @@ function createRow() {
     row.appendChild(handRank);
 
     screen.appendChild(row);
+    numBoards++;
 }
 
-// init_game();
-// createRow();
-// console.log(hand[0].toString() + " " + hand[1].toString())
+init_game();
+createRow();
 
