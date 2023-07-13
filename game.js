@@ -4,7 +4,9 @@ class Card {
         this.value = value;
         this.suit = suit;
         this.toElement = () => {
-            if(this==null||this===undefined) console.log("Card is null");
+            if(this==null||this===undefined) {
+                console.log("Card is null");
+            }
             let c = document.createElement('div');
             c.classList.add('card');
             let url = 'url("Assets/Cards/';
@@ -49,6 +51,7 @@ class Card {
         }
     }
 
+    // Return a string in the form "${rank} of ${suit}
     toString() {
         let c = "";
         switch(this.value) {
@@ -70,16 +73,16 @@ class Card {
         }
 
         switch(this.suit) {
-            case 1:
+            case 0:
                 c += "Spades";
                 break;
-            case 2:
+            case 1:
                 c += "Hearts";
                 break;
-            case 3:
+            case 2:
                 c += "Clubs";
                 break;
-            case 4:
+            case 3:
                 c += "Diamonds";
                 break;
         }
@@ -107,12 +110,19 @@ function init_game() {
             deck.push(new Card(j, i));
         }
     }
+    shuffle();
 
-    deck.sort(() => Math.random() - 0.5);
     hand[0] = deck.pop();
     hand[1] = deck.pop();
 }
 
+// Randomly shuffles deck
+function shuffle() {
+    for (let i = deck.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [deck[i], deck[j]] = [deck[j], deck[i]];
+    }
+}
 function newGuess() {
     for (let i = 0; i < 5; ++i) {
         board[i] = deck.pop();
@@ -324,9 +334,12 @@ submitBtn.addEventListener('click', () => {
     for(let i = 0; i < 2; i++) {
         deck.splice(deck.indexOf(deck.filter((c)=>c.suit===curGuess[0].suit&&c.value===curGuess[0].value)));
     }
+    createRow();
+    curGuess = [];
 
 });
 
+// Update background image of guess cards
 function updateGuess(i) {
     console.log(curGuess[0].toElement().style.backgroundImage);
 
@@ -336,6 +349,7 @@ function updateGuess(i) {
         curGuess[1].toElement().style.backgroundImage;
 }
 
+// Add guess card to curGuess
 function addGuessCard(i) {
     if(curGuess.length===2) return;
 
