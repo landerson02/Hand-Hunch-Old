@@ -325,8 +325,6 @@ for(let i = 0; i < 13; i++) {
 
 // Submit Guess
 submitBtn.addEventListener('click', () => {
-    console.log(curGuess[0]);
-    console.log(hand[0]);
     if((!deck.includes(curGuess[0]) && !hand.includes(curGuess[0])) ||
         (!deck.includes(curGuess[1]) && !hand.includes(curGuess[1])) || (curGuess[0]===curGuess[1])) {
         console.log('not in deck');
@@ -334,18 +332,21 @@ submitBtn.addEventListener('click', () => {
     }
     guesses[numBoards-1][0].classList.add(colorStatus(curGuess[0]));
     guesses[numBoards-1][1].classList.add(colorStatus(curGuess[1]));
-    for(let i = 0; i < 2; i++) {
-        deck.splice(deck.indexOf(deck.filter((c)=>c.suit===curGuess[0].suit&&c.value===curGuess[0].value)));
+
+    if(guesses[numBoards-1][0].classList.contains('green') && guesses[numBoards-1][1].classList.contains('green')) {
+        endGame();
+    } else {
+        for(let i = 0; i < 2; i++) {
+            deck.splice(deck.indexOf(deck.filter((c)=>c.suit===curGuess[0].suit&&c.value===curGuess[0].value)));
+        }
+        createRow();
+        curGuess = [];
     }
-    createRow();
-    curGuess = [];
 
 });
 
 // Update background image of guess cards
-function updateGuess(i) {
-    console.log(curGuess[0].toElement().style.backgroundImage);
-
+function updateGuess() {
     if(curGuess.length >= 1) {
         guesses[numBoards-1][0].style.backgroundImage = curGuess[0].toElement().style.backgroundImage;
     }
@@ -365,11 +366,12 @@ function addGuessCard(i) {
     } else {
         curGuess.push(new Card(i, curSuit));
     }
-    updateGuess(i);
+    updateGuess();
 }
 
 // Create next board
 function createRow() {
+    // Create row
     const row = document.createElement('div');
     row.classList.add('row');
 
@@ -390,14 +392,24 @@ function createRow() {
     }
     row.appendChild(boardElement);
 
+    // Create hand rank
     const handRank = document.createElement('div');
     handRank.classList.add('hand-rank');
     handRank.textContent = handStrength();
-
     row.appendChild(handRank);
-
     screen.appendChild(row);
+
     numBoards++;
+}
+
+// End of round
+function endGame() {
+    while(screen.firstChild) {
+        screen.removeChild(screen.firstChild);
+    }
+    const winningText = document.createElement('h1');
+    winningText.textContent = `Congrats! You won in ${numBoards} guesses! Please Refresh the page to play again.`
+    screen.appendChild(winningText);
 }
 
 init_game();
