@@ -15,7 +15,7 @@ body {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    border-bottom: 1px solid gray;
+    border-bottom: 2px solid gray;
 }
 
 .header-logo {
@@ -63,7 +63,6 @@ body {
     flex-direction: row;
     justify-content: space-between;
     width: 20rem;
-    border: solid blue 2px;
 }
 
 .board {
@@ -71,7 +70,6 @@ body {
     flex-direction: row;
     justify-content: space-between;
     width: 40rem;
-    border: 2px solid pink;
 }
 
 .hand-rank {
@@ -118,6 +116,7 @@ body {
 .suit-btn {
     width: 6rem;
     height: 6rem;
+    font-size: 5rem;
 }
 
 .rank-btn-container {
@@ -129,6 +128,7 @@ body {
 .rank-btn {
     width: 4rem;
     height: 4rem;
+    font-size: 3rem;
 }
 .top {
     display: flex;
@@ -144,4 +144,5 @@ body {
 .guess-btn {
     width: 8rem;
     height: 4rem;
+    font-size: 1.5rem;
 }
