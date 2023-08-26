@@ -294,6 +294,12 @@ let rankBtns = [];
 let submitBtn = document.getElementById('submit');
 let resetBtn = document.getElementById('reset');
 
+// FIXME
+const testingBtn = document.getElementById('help-btn');
+testingBtn.addEventListener('click', () => {
+    console.log(hand[0].toString() + ", " + hand[1].toString());
+});
+
 // Reset Guess
 resetBtn.addEventListener('click', () => {
     curGuess = [];
@@ -325,11 +331,11 @@ for(let i = 0; i < 13; i++) {
 
 // Submit Guess
 submitBtn.addEventListener('click', () => {
-    if((!deck.includes(curGuess[0]) && !hand.includes(curGuess[0])) ||
-        (!deck.includes(curGuess[1]) && !hand.includes(curGuess[1])) || (curGuess[0]===curGuess[1])) {
-        console.log('not in deck');
-        return;
-    }
+    // if((!deck.includes(curGuess[0]) && !hand.includes(curGuess[0])) ||
+    //     (!deck.includes(curGuess[1]) && !hand.includes(curGuess[1])) || (curGuess[0]===curGuess[1])) {
+    //     console.log('not in deck');
+    //     return;
+    // }
     guesses[numBoards-1][0].classList.add(colorStatus(curGuess[0]));
     guesses[numBoards-1][1].classList.add(colorStatus(curGuess[1]));
 
@@ -337,7 +343,7 @@ submitBtn.addEventListener('click', () => {
         endGame();
     } else {
         for(let i = 0; i < 2; i++) {
-            deck.splice(deck.indexOf(deck.filter((c)=>c.suit===curGuess[0].suit&&c.value===curGuess[0].value)));
+            deck.splice(deck.findIndex(c=>c.suit===curGuess[0].suit&&c.value===curGuess[0].value), 1);
         }
         createRow();
         curGuess = [];
@@ -359,10 +365,11 @@ function updateGuess() {
 function addGuessCard(i) {
     if(curGuess.length===2) return;
 
+    // deck.filter((c)=>c.suit===curSuit&&c.value===i)[0]
     if(deck.filter((c)=>c.suit===curSuit&&c.value===i).length > 0) {
-        curGuess.push(deck.filter((c)=>c.suit===curSuit&&c.value===i)[0]);
+        curGuess.push(deck.find(c=>c.suit===curSuit&&c.value===i));
     } else if(hand.filter((c)=>c.suit===curSuit&&c.value===i).length > 0) {
-        curGuess.push(hand.filter((c)=>c.suit===curSuit&&c.value===i)[0]);
+        curGuess.push(deck.find(c=>c.suit===curSuit&&c.value===i));
     } else {
         curGuess.push(new Card(i, curSuit));
     }
