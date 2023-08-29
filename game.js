@@ -98,6 +98,7 @@ let suitMap = {
     "D" : 3,
 }
 let deck = [];
+let allCards = [];
 let hand = [null, null];
 let board = [null, null, null, null, null];
 let numBoards = 0;
@@ -107,7 +108,9 @@ function init_game() {
     deck = [];
     for (let i = 0; i < 4; ++i) {
         for (let j = 1; j <= 13; ++j) {
-            deck.push(new Card(j, i));
+            const c = new Card(j, i);
+            deck.push(c);
+            allCards.push(c);
         }
     }
     shuffle();
@@ -364,15 +367,7 @@ function updateGuess() {
 // Add guess card to curGuess
 function addGuessCard(i) {
     if(curGuess.length===2) return;
-
-    // deck.filter((c)=>c.suit===curSuit&&c.value===i)[0]
-    if(deck.filter((c)=>c.suit===curSuit&&c.value===i).length > 0) {
-        curGuess.push(deck.find(c=>c.suit===curSuit&&c.value===i));
-    } else if(hand.filter((c)=>c.suit===curSuit&&c.value===i).length > 0) {
-        curGuess.push(deck.find(c=>c.suit===curSuit&&c.value===i));
-    } else {
-        curGuess.push(new Card(i, curSuit));
-    }
+    curGuess.push(allCards.find(c=>c.suit===curSuit&&c.value===i));
     updateGuess();
 }
 
