@@ -3,57 +3,55 @@ class Card {
     constructor(value, suit) {
         this.value = value;
         this.suit = suit;
-        this.toElement = () => {
-            if (this == null || this === undefined) {
-                console.log('Card is null');
+        if (this == null || this === undefined) {
+            console.log('Card is null');
+        }
+        let c = document.createElement('div');
+        c.classList.add('card');
+        let url = 'url("Assets/Cards/';
+        if (
+            this.suit < 0 ||
+            this.suit > 3 ||
+            this.value < 1 ||
+            this.value > 13
+        ) {
+            url += 'back';
+        } else {
+            switch (this.suit) {
+                case 0:
+                    url += 'spades_';
+                    break;
+                case 1:
+                    url += 'hearts_';
+                    break;
+                case 2:
+                    url += 'clubs_';
+                    break;
+                case 3:
+                    url += 'diamonds_';
+                    break;
             }
-            let c = document.createElement('div');
-            c.classList.add('card');
-            let url = 'url("Assets/Cards/';
-            if (
-                this.suit < 0 ||
-                this.suit > 3 ||
-                this.value < 1 ||
-                this.value > 13
-            ) {
-                url += 'back';
-            } else {
-                switch (this.suit) {
-                    case 0:
-                        url += 'spades_';
-                        break;
-                    case 1:
-                        url += 'hearts_';
-                        break;
-                    case 2:
-                        url += 'clubs_';
-                        break;
-                    case 3:
-                        url += 'diamonds_';
-                        break;
-                }
-                switch (this.value) {
-                    case 1:
-                        url += 'ace';
-                        break;
-                    case 11:
-                        url += 'jack';
-                        break;
-                    case 12:
-                        url += 'queen';
-                        break;
-                    case 13:
-                        url += 'king';
-                        break;
-                    default:
-                        url += this.value;
-                        break;
-                }
+            switch (this.value) {
+                case 1:
+                    url += 'ace';
+                    break;
+                case 11:
+                    url += 'jack';
+                    break;
+                case 12:
+                    url += 'queen';
+                    break;
+                case 13:
+                    url += 'king';
+                    break;
+                default:
+                    url += this.value;
+                    break;
             }
-            url += '.svg")';
-            c.style.backgroundImage = url;
-            return c;
-        };
+        }
+        url += '.svg")';
+        c.style.backgroundImage = url;
+        this.element = c;
     }
 
     // Return a string in the form "${rank} of ${suit}
@@ -338,18 +336,11 @@ submitBtn.addEventListener('click', () => {
     ) {
         endGame();
     } else {
-        for (let i = 0; i < 2; i++) {
-            deck.splice(
-                deck.findIndex(
-                    (c) =>
-                        c.suit === curGuess[0].suit &&
-                        c.value === curGuess[0].value,
-                ),
-                1,
-            );
+        if(numBoards===10) {
+            endGame();
         }
         createRow();
-        curGuess = [];
+        curGuess = [null, null];
     }
 });
 
@@ -357,11 +348,11 @@ submitBtn.addEventListener('click', () => {
 function updateGuess() {
     if (curGuess.length >= 1) {
         guesses[numBoards - 1][0].style.backgroundImage =
-            curGuess[0].toElement().style.backgroundImage;
+            curGuess[0].element.style.backgroundImage;
     }
     if (curGuess.length === 2) {
         guesses[numBoards - 1][1].style.backgroundImage =
-            curGuess[1].toElement().style.backgroundImage;
+            curGuess[1].element.style.backgroundImage;
     }
 }
 
@@ -381,8 +372,11 @@ function createRow() {
     // Create guess section
     const guessContainer = document.createElement('div');
     guessContainer.classList.add('guess');
-    guessContainer.appendChild(new Card(-1, -1).toElement());
-    guessContainer.appendChild(new Card(-1, -1).toElement());
+
+    const g1 = new Card(-1, -1);
+    const g2 = new Card(-1, -1);
+    guessContainer.appendChild(g1.element);
+    guessContainer.appendChild(g2.element);
     guesses.push([guessContainer.firstChild, guessContainer.lastChild]);
     row.appendChild(guessContainer);
 
@@ -391,7 +385,7 @@ function createRow() {
     boardElement.classList.add('board');
     for (let i = 0; i < 5; i++) {
         board[i] = deck.pop();
-        boardElement.appendChild(board[i].toElement());
+        boardElement.appendChild(board[i].element);
     }
     row.appendChild(boardElement);
 
@@ -411,7 +405,11 @@ function endGame() {
         screen.removeChild(screen.firstChild);
     }
     const winningText = document.createElement('h1');
-    winningText.textContent = `Congrats! You won in ${numBoards} guesses! Please Refresh the page to play again.`;
+    if(numBoards===10) {
+        winningText.textContent = 'You lose!!!';
+    } else {
+        winningText.textContent = `Congrats! You won in ${numBoards} guesses! Please Refresh the page to play again.`;
+    }
     screen.appendChild(winningText);
 }
 
