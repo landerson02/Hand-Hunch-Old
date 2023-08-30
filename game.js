@@ -313,9 +313,9 @@ suitBtns[2] = document.getElementById('C');
 suitBtns[3] = document.getElementById('D');
 for (let i = 0; i < 4; i++) {
     suitBtns[i].addEventListener('click', () => {
-        suitBtns[curSuit].style.backgroundColor = '';
+        suitBtns[curSuit].style.border = '';
         curSuit = suitMap[suitBtns[i].id];
-        suitBtns[curSuit].style.backgroundColor = 'gray';
+        suitBtns[curSuit].style.border = '3px solid red';
     });
 }
 
@@ -401,7 +401,7 @@ function createRow() {
     handRank.textContent = handStrength();
     row.appendChild(handRank);
     screen.appendChild(row);
-
+    document.getElementById("screen").scrollTop = document.getElementById("screen").scrollHeight;
     numBoards++;
 }
 

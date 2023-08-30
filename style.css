@@ -12,7 +12,7 @@ body {
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
-    height: 100%;
+    min-height: 90vh;
 }
 
 .header {
@@ -36,30 +36,31 @@ body {
 }
 
 .screen-container {
+    height: 77vh;
     overflow-y: auto;
-    height: 475px;
-    padding: 10px;
 }
 
 .row {
     display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
+    justify-content: space-around;
+    text-align: center;
 }
 
 #first {
-    justify-content: space-evenly;
-    gap: 20rem;
     font-size: 2rem;
     font-weight: bold;
 }
+
 .guess {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     width: 12.5rem;
-    align-self: center;
+}
+
+.guess-header {
+    text-align: center;
+    width: 12.5rem;
 }
 
 .board {
@@ -67,10 +68,15 @@ body {
     flex-direction: row;
     justify-content: space-between;
     width: 30rem;
-    align-self: center;
+}
+
+.board-header {
+    width: 30rem;
+    text-align: center;
 }
 
 .hand-rank {
+    padding-top: 1.8rem;
     width: 20rem;
     font-size: 48px;
 }
@@ -106,7 +112,12 @@ body {
 .btns-container {
     display: flex;
     flex-direction: row;
-    justify-content: space-evenly;
+    justify-content: space-around;
+    overflow-wrap: normal;
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    right: 0;
 }
 
 .suit-btn-container {
@@ -115,15 +126,16 @@ body {
 }
 
 .suit-btn {
-    width: 6rem;
-    height: 6rem;
-    font-size: 5rem;
+    width: 4rem;
+    height: 4rem;
+    font-size: 4rem;
+    background-position: center center;
+    background-size: 300%;
 }
 
 .rank-btn-container {
     display: flex;
     flex-direction: row;
-    align-items: center;
 }
 
 .rank-btn {
@@ -139,11 +151,11 @@ body {
 }
 .guess-btn-container {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
 }
 
 .guess-btn {
-    width: 8rem;
+    width: 6rem;
     height: 4rem;
     font-size: 1.5rem;
 }
