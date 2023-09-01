@@ -427,4 +427,10 @@ document.addEventListener('DOMContentLoaded', function () {
     closePopupButton.addEventListener('click', function () {
       popup.style.display = 'none';
     });
-  });
+
+    window.addEventListener('click', function (event) {
+        if (event.target === popup) {
+          popup.style.display = 'none';
+        }
+      });
+});
