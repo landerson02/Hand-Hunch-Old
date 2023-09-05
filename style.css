@@ -129,7 +129,7 @@ button {
     border-radius: 10%;
 }
 .suit-btn {
-    width: 4rem;
+    max-width: 4rem;
     height: 4rem;
     font-size: 4rem;
     background-position: center center;
@@ -194,4 +194,8 @@ button {
     right: 10px;
     font-size: 20px;
     cursor: pointer;
+  }
+
+  .close:hover {
+      color: red;
   }
