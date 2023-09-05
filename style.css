@@ -125,6 +125,9 @@ body {
     flex-direction: row;
 }
 
+button {
+    border-radius: 10%;
+}
 .suit-btn {
     width: 4rem;
     height: 4rem;

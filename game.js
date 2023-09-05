@@ -298,10 +298,14 @@ let resetBtn = document.getElementById('reset');
 
 // Reset Guess
 resetBtn.addEventListener('click', () => {
+    reset();
+});
+
+let reset = () => {
     curGuess = [];
     guesses[numBoards - 1][0].style.backgroundImage = backFile;
     guesses[numBoards - 1][1].style.backgroundImage = backFile;
-});
+}
 
 // Changing selected suit
 let curSuit = 0;
@@ -340,7 +344,6 @@ submitBtn.addEventListener('click', () => {
             endGame();
         }
         createRow();
-        curGuess = [null, null];
     }
 });
 
@@ -397,6 +400,7 @@ function createRow() {
     screen.appendChild(row);
     document.getElementById("screen").scrollTop = document.getElementById("screen").scrollHeight;
     numBoards++;
+    reset();
 }
 
 // End of round
