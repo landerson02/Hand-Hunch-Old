@@ -91,7 +91,6 @@ body {
     width: 5rem;
     border: 2px solid black;
     border-radius: .7rem;
-    background-image: url("Assets/Cards/diamonds_ace.svg");
     background-size: cover;
     background-position: center;
     box-sizing: border-box;
@@ -128,12 +127,22 @@ body {
 button {
     border-radius: 10%;
 }
+button:hover {
+    background-color: gray;
+}
 .suit-btn {
-    max-width: 4rem;
+    width: 4rem;
     height: 4rem;
     font-size: 4rem;
     background-position: center center;
+    background-color: transparent;
     background-size: 300%;
+}
+.suit-btn svg rect:hover {
+    fill: black;
+}
+svg > rect {
+    fill: lightgreen;
 }
 
 .rank-btn-container {
@@ -163,6 +172,12 @@ button {
     font-size: 1.5rem;
 }
 
+#submit:hover{
+    background-color: lightgreen;
+}
+#reset:hover {
+    background-color: red;
+}
 /* Styles for the popup container */
 .popup {
     display: none;
